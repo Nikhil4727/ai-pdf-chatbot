@@ -21,7 +21,7 @@ st.title("📄 AI PDF Chatbot")
 @st.cache_resource
 def load_embeddings():
     return GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001",
+        model="text-embedding-004",
         google_api_key=os.getenv("GEMINI_API_KEY") 
     )
 
