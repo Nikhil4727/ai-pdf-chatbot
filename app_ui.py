@@ -106,7 +106,6 @@ if uploaded_file is not None:
         Question:
         {query}
         """
- 
         with st.spinner("Thinking... 🤔"):
             try:
                 response = client.models.generate_content(
@@ -114,8 +113,8 @@ if uploaded_file is not None:
                     contents=prompt
                 )
                 answer = response.text
-            except Exception:
-                answer = "❌ Error generating response"
+            except Exception as e:
+                answer = f"❌ Error generating response: {str(e)}"
  
         st.session_state.messages.append({"role": "assistant", "content": answer})
         st.chat_message("assistant").write(answer)
