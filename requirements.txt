@@ -1,9 +1,8 @@
 streamlit
 pypdf
-langchain-text-splitters
-sentence-transformers
+langchain
+langchain-community
+langchain-google-genai
 faiss-cpu
 google-genai
 python-dotenv
-torch
-torchvision
