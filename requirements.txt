@@ -1,8 +1,5 @@
 streamlit
 pypdf
-langchain
 langchain-text-splitters
 scikit-learn
 groq
-python-dotenv
-.streamlit/secrets.toml

@@ -261,7 +261,9 @@ st.title("📄 AI PDF Chatbot")
 
 # ── Groq client ───────────────────────────────────────────────────────────────
 
-client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+import os
+api_key = st.secrets.get("GROQ_API_KEY") or os.environ.get("GROQ_API_KEY")
+client = Groq(api_key=api_key)
 
 # ── Session state init ────────────────────────────────────────────────────────
 if "messages" not in st.session_state:
