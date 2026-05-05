@@ -240,10 +240,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from groq import Groq
 import os
-from dotenv import load_dotenv
 
-
-load_dotenv()
 # Replace with this:
 from pathlib import Path
 
