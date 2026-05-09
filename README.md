@@ -1,4 +1,4 @@
-# 📄 AI PDF Chatbot
+AI PDF Chatbot
 
 A RAG-based chatbot where you can upload any PDF and ask questions about it. Built this as a learning project to understand how RAG (Retrieval-Augmented Generation) actually works under the hood.
 
