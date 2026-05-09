@@ -6,7 +6,6 @@ from groq import Groq
 import os
 from pathlib import Path
 
-# ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(page_title="AI PDF Chatbot", page_icon="📄")
 
 st.markdown("""
@@ -18,11 +17,9 @@ st.markdown("""
 
 st.title("📄 AI PDF Chatbot")
 
-# ── Groq client ───────────────────────────────────────────────────────────────
 api_key = st.secrets.get("GROQ_API_KEY") or os.environ.get("GROQ_API_KEY")
 client = Groq(api_key=api_key)
 
-# ── Session state init ────────────────────────────────────────────────────────
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -32,7 +29,6 @@ if "pdf_processed" not in st.session_state:
 if "current_file" not in st.session_state:
     st.session_state.current_file = None
 
-# ── Process PDF ───────────────────────────────────────────────────────────────
 @st.cache_resource
 def process_pdf(file_bytes):
     import io
@@ -44,14 +40,12 @@ def process_pdf(file_bytes):
             text += content
 
     if not text.strip():
-        return None, None  # FIX 1: sirf 2 values (pehle 3 thi)
+        return None, None
 
-    # Chunking — natural boundaries pe split
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     chunks = splitter.split_text(text)
 
-    # FIX 2: Indentation sahi ki — chroma_client ab sahi jagah hai
-    chroma_client = chromadb.Client()  # in-memory
+    chroma_client = chromadb.Client()
     collection = chroma_client.get_or_create_collection(
         name="pdf_chunks",
         metadata={"hnsw:space": "cosine"}
@@ -61,9 +55,8 @@ def process_pdf(file_bytes):
         ids=[f"chunk_{i}" for i in range(len(chunks))]
     )
 
-    return collection, chunks  # sirf 2 values
+    return collection, chunks
 
-# ── Sidebar: PDF Upload ───────────────────────────────────────────────────────
 with st.sidebar:
     st.header("Upload PDF")
     uploaded_file = st.file_uploader("Choose a PDF", type="pdf")
@@ -77,7 +70,7 @@ with st.sidebar:
         file_bytes = uploaded_file.read()
         collection, chunks = process_pdf(file_bytes)
 
-        if collection is None:  # FIX 3: 'vectors' ki jagah 'collection' check
+        if collection is None:
             st.error("❌ Could not extract text from PDF")
         else:
             st.session_state.collection = collection
@@ -90,7 +83,6 @@ with st.sidebar:
             st.session_state.messages = []
             st.rerun()
 
-# ── Main Chat Area ────────────────────────────────────────────────────────────
 if not st.session_state.pdf_processed:
     st.info("Upload a PDF from the sidebar to start chatting!")
 else:
@@ -105,12 +97,11 @@ else:
         with st.chat_message("user"):
             st.write(query)
 
-        # ChromaDB se relevant chunks fetch karo
         results = st.session_state.collection.query(
             query_texts=[query],
             n_results=3
         )
-        context = "\n".join(results['documents'][0])  # FIX 4: context variable banaya
+        context = "\n".join(results['documents'][0])
 
         conversation = [
             {
