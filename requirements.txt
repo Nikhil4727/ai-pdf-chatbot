@@ -1,5 +1,5 @@
 streamlit
 pypdf
 langchain-text-splitters
-scikit-learn
+chromadb
 groq
