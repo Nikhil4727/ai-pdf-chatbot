@@ -1,7 +1,6 @@
-streamlit
+streamlit==1.45.1
 pypdf
 langchain-text-splitters
 chromadb==1.0.0
-starlette==0.41.3
 groq
 python-dotenv
